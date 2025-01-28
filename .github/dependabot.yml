@@ -10,3 +10,13 @@ updates:
       python:
         patterns:
           - "*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "r4b2"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
