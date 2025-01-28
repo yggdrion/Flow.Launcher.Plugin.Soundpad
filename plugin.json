@@ -4,7 +4,7 @@
     "Name": "Soundpad Search",
     "Description": "Soundpad Search",
     "Author": "Flow Launcher",
-    "Version": "1.0.0",
+    "Version": "1.1.0",
     "Language": "python",
     "Website": "https://github.com/yggdrion/Flow.Launcher.Plugin.HelloWorldPython",
     "IcoPath": "Images\\soundpad.png",
