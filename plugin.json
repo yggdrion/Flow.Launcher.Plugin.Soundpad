@@ -1,12 +1,12 @@
 {
-    "ID": "2f4e384e-76ce-45c3-aea2-b16f5e5c328f",
-    "ActionKeyword": "hp",
-    "Name": "Hello World Python",
-    "Description": "Python Hello World example plugin",
+    "ID": "f9db8112-ddc2-11ef-8123-fb388186ed50",
+    "ActionKeyword": "sp",
+    "Name": "Soundpad Search",
+    "Description": "Soundpad Search",
     "Author": "Flow Launcher",
     "Version": "1.0.0",
     "Language": "python",
-    "Website": "https://github.com/Flow-Launcher/Flow.Launcher.Plugin.HelloWorldPython",
-    "IcoPath": "Images\\app.png",
+    "Website": "https://github.com/yggdrion/Flow.Launcher.Plugin.HelloWorldPython",
+    "IcoPath": "Images\\soundpad.png",
     "ExecuteFileName": "main.py"
 }
