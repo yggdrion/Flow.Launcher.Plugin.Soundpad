@@ -4,9 +4,8 @@ import sys
 import os
 
 parent_folder_path = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(parent_folder_path)
-sys.path.append(os.path.join(parent_folder_path, "lib"))
-sys.path.append(os.path.join(parent_folder_path, "plugin"))
+for folder in ["", "lib", "plugin"]:
+    sys.path.append(os.path.join(parent_folder_path, folder))
 
 from flowlauncher import FlowLauncher
 import webbrowser
@@ -14,23 +13,14 @@ import webbrowser
 import requests
 
 
-class HelloWorld(FlowLauncher):
+class SoundpadSearch(FlowLauncher):
     def query(self, query):
-        categories = {}
-        response = requests.get("http://127.0.0.1:5000/soundpad/query/" + query)
-
-        # categories look like the following
-        # {
-        #     "23": "57324-concerning-hobbits-lord-of-the-rings",
-        #     "22": "47745-top-12-hobbit-lotr-horns"
-        # }
-
-        if query == "":
+        if not query:
             return [
                 {
                     "Title": "Search for a sound",
-                    "SubTitle": "This is where your subtitle goes, press enter to open Flow's url",
-                    "IcoPath": "Images/soundpad.png",
+                    "SubTitle": "",
+                    "IcoPath": "Images/app.png",
                     "JsonRPCAction": {
                         "method": "open_url",
                         "parameters": [
@@ -40,6 +30,16 @@ class HelloWorld(FlowLauncher):
                 }
             ]
 
+        try:
+            response = requests.get(f"http://127.0.0.1:5000/soundpad/query/{query}")
+            response.raise_for_status()
+        except requests.RequestException:
+            return [{
+                "Title": "Unable to fetch sounds",
+                "SubTitle": "Network issue or server unavailable",
+                "IcoPath": "Images/app.png"
+            }]
+
         categories = response.json()
         results = []
         for cat_id, cat_name in categories.items():
@@ -47,7 +47,7 @@ class HelloWorld(FlowLauncher):
                 {
                     "Title": cat_name,
                     "SubTitle": "SoundId: " + cat_id,
-                    "IcoPath": "Images/soundpad.png",
+                    "IcoPath": "Images/app.png",
                     "JsonRPCAction": {
                         "method": "query_set",
                         "parameters": [cat_id],
@@ -61,7 +61,7 @@ class HelloWorld(FlowLauncher):
             {
                 "Title": "Hello World Python's Context menu",
                 "SubTitle": "Press enter to open Flow the plugin's repo in GitHub",
-                "IcoPath": "Images/soundpad.png",
+                "IcoPath": "Images/app.png",
                 "JsonRPCAction": {
                     "method": "open_url",
                     "parameters": [
@@ -79,4 +79,4 @@ class HelloWorld(FlowLauncher):
 
 
 if __name__ == "__main__":
-    HelloWorld()
+    SoundpadSearch()
