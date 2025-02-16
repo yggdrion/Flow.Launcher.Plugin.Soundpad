@@ -18,7 +18,7 @@ sp = Soundpad()
 
 
 class SoundpadSearch(FlowLauncher):
-    def query(self, query):
+    def query(self, query): # type: ignore
         if not query:
             return [
                 {
@@ -44,7 +44,6 @@ class SoundpadSearch(FlowLauncher):
                     "IcoPath": "Images/app.png",
                 }
             ]
-        # json dump
         categories = response
         results = []
         for cat_id, cat_name in categories.items():
