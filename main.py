@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 
+import json
 import sys
 import os
+
 
 parent_folder_path = os.path.abspath(os.path.dirname(__file__))
 for folder in ["", "lib", "plugin"]:
     sys.path.append(os.path.join(parent_folder_path, folder))
 
-from flowlauncher import FlowLauncher
-import webbrowser
+from flowlauncher import FlowLauncher  # noqa: E402
+import webbrowser  # noqa: E402
+import requests  # noqa: E402
 
-import requests
+from soundpadrc import Soundpad
+sp = Soundpad()
 
 
 class SoundpadSearch(FlowLauncher):
@@ -31,16 +35,17 @@ class SoundpadSearch(FlowLauncher):
             ]
 
         try:
-            response = requests.get(f"http://127.0.0.1:5000/soundpad/query/{query}")
-            response.raise_for_status()
+            response = sp.query_sounds(query)
         except requests.RequestException:
-            return [{
-                "Title": "Unable to fetch sounds",
-                "SubTitle": "Network issue or server unavailable",
-                "IcoPath": "Images/app.png"
-            }]
-
-        categories = response.json()
+            return [
+                {
+                    "Title": "Unable to fetch sounds",
+                    "SubTitle": "Network issue or server unavailable",
+                    "IcoPath": "Images/app.png",
+                }
+            ]
+        # json dump
+        categories = response
         results = []
         for cat_id, cat_name in categories.items():
             results.append(
@@ -75,7 +80,7 @@ class SoundpadSearch(FlowLauncher):
         webbrowser.open(url)
 
     def query_set(self, cat_id):
-        requests.get("http://127.0.0.1:5000/soundpad/query-set/" + cat_id)
+        sp.query_id_set(cat_id)
 
 
 if __name__ == "__main__":
